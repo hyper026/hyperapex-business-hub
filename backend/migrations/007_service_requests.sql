@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS service_requests (
+ id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ reference VARCHAR(40) NOT NULL UNIQUE,
+ client_id BIGINT UNSIGNED NOT NULL,
+ service_id BIGINT UNSIGNED NOT NULL,
+ title VARCHAR(255) NOT NULL,
+ description TEXT NOT NULL,
+ status ENUM('NEW','UNDER_REVIEW','ASSIGNED','IN_PROGRESS','AWAITING_CLIENT','COMPLETED','CLOSED') NOT NULL DEFAULT 'NEW',
+ priority ENUM('LOW','NORMAL','HIGH','URGENT') NOT NULL DEFAULT 'NORMAL',
+ assigned_to BIGINT UNSIGNED NULL,
+ created_by BIGINT UNSIGNED NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ INDEX idx_request_client(client_id), INDEX idx_request_status(status), INDEX idx_request_assigned(assigned_to),
+ CONSTRAINT fk_request_client FOREIGN KEY(client_id) REFERENCES clients(id),
+ CONSTRAINT fk_request_service FOREIGN KEY(service_id) REFERENCES services(id),
+ CONSTRAINT fk_request_assignee FOREIGN KEY(assigned_to) REFERENCES users(id) ON DELETE SET NULL,
+ CONSTRAINT fk_request_creator FOREIGN KEY(created_by) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS request_notes (
+ id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ request_id BIGINT UNSIGNED NOT NULL,
+ user_id BIGINT UNSIGNED NOT NULL,
+ note TEXT NOT NULL,
+ is_internal BOOLEAN NOT NULL DEFAULT TRUE,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ INDEX idx_notes_request(request_id),
+ CONSTRAINT fk_note_request FOREIGN KEY(request_id) REFERENCES service_requests(id) ON DELETE CASCADE,
+ CONSTRAINT fk_note_user FOREIGN KEY(user_id) REFERENCES users(id)
+);
