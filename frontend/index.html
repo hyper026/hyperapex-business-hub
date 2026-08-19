@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hyperapex Business Hub management dashboard">
+  <title>Hyperapex Business Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">HYPERAPEX<br><span>BUSINESS HUB</span></div>
+    <nav>
+      <a class="active" href="#dashboard">Dashboard</a>
+      <a href="#clients">Clients</a>
+      <a href="#requests">Service Requests</a>
+      <a href="#tasks">Tasks</a>
+      <a href="#documents">Documents</a>
+      <a href="#reports">Reports</a>
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><p class="eyebrow">MANAGEMENT PORTAL</p><h1>Business Dashboard</h1></div><a class="logout" href="#">Sign out</a></header>
+    <section id="dashboard" class="stats">
+      <article><span>Clients</span><strong id="clientsCount">—</strong><small>Active client records</small></article>
+      <article><span>Active Matters</span><strong id="requestsCount">—</strong><small>Service requests</small></article>
+      <article><span>Pending Tasks</span><strong id="tasksCount">—</strong><small>Work requiring action</small></article>
+      <article><span>Services</span><strong id="servicesCount">—</strong><small>Available service lines</small></article>
+    </section>
+    <section class="panel" id="services"><div class="panel-head"><div><p class="eyebrow">SERVICE CATALOGUE</p><h2>Hyperapex Services</h2></div></div><div id="serviceGrid" class="service-grid"><p>Loading services…</p></div></section>
+    <section class="panel" id="clients"><div class="panel-head"><div><p class="eyebrow">CRM</p><h2>Client Management</h2></div><button>Add Client</button></div><p>Client records, contacts, service history and follow-ups will appear here.</p></section>
+    <section class="panel" id="requests"><div class="panel-head"><div><p class="eyebrow">WORKFLOW</p><h2>Service Requests</h2></div><button>New Request</button></div><p>Track each client matter from new request through completion.</p></section>
+    <section class="panel" id="tasks"><div class="panel-head"><div><p class="eyebrow">OPERATIONS</p><h2>Tasks</h2></div><button>Create Task</button></div><p>Assign work, deadlines and progress to staff and specialists.</p></section>
+    <section class="panel" id="documents"><div class="panel-head"><div><p class="eyebrow">DOCUMENTS</p><h2>Document Management</h2></div></div><p>Secure document records will be connected to client matters in the next build phase.</p></section>
+    <section class="panel" id="reports"><div class="panel-head"><div><p class="eyebrow">MANAGEMENT</p><h2>Reports</h2></div></div><p>Management reporting and business analytics will be added in the finance and reporting phase.</p></section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
