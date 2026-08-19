@@ -1,0 +1,25 @@
+const API_BASE = window.HYPERAPEX_API_BASE || 'http://localhost:4000';
+const form = document.getElementById('loginForm');
+const error = document.getElementById('error');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  error.textContent = '';
+  try {
+    const response = await fetch(`${API_BASE}/api/auth/login`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value
+      })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Unable to sign in.');
+    sessionStorage.setItem('hyperapex_token', data.token);
+    sessionStorage.setItem('hyperapex_user', JSON.stringify(data.user));
+    window.location.href = 'index.html';
+  } catch (err) {
+    error.textContent = err.message;
+  }
+});
