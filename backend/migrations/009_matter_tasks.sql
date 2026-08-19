@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS matter_tasks (
+ id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ request_id BIGINT UNSIGNED NOT NULL,
+ title VARCHAR(255) NOT NULL,
+ description TEXT NULL,
+ assigned_to BIGINT UNSIGNED NULL,
+ priority ENUM('LOW','NORMAL','HIGH','URGENT') NOT NULL DEFAULT 'NORMAL',
+ status ENUM('TODO','IN_PROGRESS','BLOCKED','COMPLETED','CANCELLED') NOT NULL DEFAULT 'TODO',
+ due_date DATE NULL,
+ completed_at TIMESTAMP NULL DEFAULT NULL,
+ created_by BIGINT UNSIGNED NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ INDEX idx_tasks_request_status(request_id,status),
+ INDEX idx_tasks_assignee_due(assigned_to,status,due_date),
+ INDEX idx_tasks_due(status,due_date),
+ CONSTRAINT fk_task_request FOREIGN KEY(request_id) REFERENCES service_requests(id) ON DELETE CASCADE,
+ CONSTRAINT fk_task_assignee FOREIGN KEY(assigned_to) REFERENCES users(id) ON DELETE SET NULL,
+ CONSTRAINT fk_task_creator FOREIGN KEY(created_by) REFERENCES users(id) ON DELETE RESTRICT
+);
