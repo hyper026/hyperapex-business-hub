@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+coverage/
+logs/
+*.log
+uploads/
+private/
+.DS_Store
