@@ -1,0 +1,4 @@
+async function createNotification(pool,userId,{requestId=null,type='GENERAL',title,message}){if(!userId)return;await pool.execute('INSERT INTO notifications(user_id,request_id,type,title,message) VALUES(?,?,?,?,?)',[userId,requestId,type,title,message]);}
+async function notifyClient(pool,clientId,payload){const[rows]=await pool.query('SELECT id FROM users WHERE client_id=? AND role=\'CLIENT\' AND status=\'ACTIVE\'',[clientId]);for(const row of rows)await createNotification(pool,row.id,payload);}
+async function notifyStaff(pool,payload,{excludeUserId=null}={}){const[rows]=await pool.query('SELECT id FROM users WHERE role IN (\'ADMIN\',\'STAFF\',\'SPECIALIST\') AND status=\'ACTIVE\'');for(const row of rows)if(Number(row.id)!==Number(excludeUserId))await createNotification(pool,row.id,payload);}
+module.exports={createNotification,notifyClient,notifyStaff};
