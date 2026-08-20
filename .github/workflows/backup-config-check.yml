@@ -1,0 +1,28 @@
+name: Backup Configuration Check
+
+on:
+  pull_request:
+    paths:
+      - 'backend/scripts/**'
+      - 'backend/BACKUP-RECOVERY.md'
+  push:
+    branches: [main]
+    paths:
+      - 'backend/scripts/**'
+      - 'backend/BACKUP-RECOVERY.md'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate shell scripts
+        run: |
+          bash -n backend/scripts/backup-db.sh
+          bash -n backend/scripts/restore-db.sh
+      - name: Check required runbook sections
+        run: |
+          grep -q '## Recommended production policy' backend/BACKUP-RECOVERY.md
+          grep -q '## Create a backup' backend/BACKUP-RECOVERY.md
+          grep -q '## Restore' backend/BACKUP-RECOVERY.md
+          grep -q '## Recovery checklist' backend/BACKUP-RECOVERY.md
